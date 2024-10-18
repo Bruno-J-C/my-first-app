@@ -6,53 +6,55 @@ export default function HomeScreen(){
     const [weight, setWeight] = useState('');
     const [imc, setImc] = useState('');
 // quando tem um campo de texto, ele pode estar preenchido ou vazio, o estado atualiza
-// a height é uma const, nunca muda, mas ela tem uma função especial que deixa mudar, setHeight 
 
+// a height é uma const, nunca muda, mas ela tem uma função especial que deixa mudar, setHeight.
 //usestate controla estado, define o estado inicial e define uma ferramenta que vai definir os seguintes estados
 // o estado inicial é essa string vazia ('')
 
-    function imcCalculator(){
-        let totalImc = (weight/(height*height)).toFixed(2)
-        // sabemos que se dividir um valor por outro, pode er que vire decimal, então colocamos o toFixed(2) para limitar
-        // o numero de casas depois da virgulas (ele vai ser um float, é baseado em aproximação e não algo fixo como o decimal
-        // logo, ele faz arredondamentos, o decimal segue a fidelidade exata, como usado em banco de dinheiro)
-        
-        setImc(totalImc)
-// aq estamos exibindo a var, ela começou vazia pois useState('') está nulo.
-//chamamos o setImc para atualizar o estado da var, estado esse que recebe totalImc 
-    }
 
-    function validatorImc(){
-        if(weight != '' && height != ''){
-            imcCalculator();
-            setHeight('');
-            setWeight('');
-        }
-            // se as duas vars estiverem vazias, então obriga a preencher os dados
+    const [imcList, setImcList] = useState('');
+    //    definindo um array de lista
+
+function validatorImc(){
+    console.log(imcList);
+    if(weight !== undefined && height !== undefined){
+        let totalImc = (weight/(height*height)).toFixed(2)
+
+        setImcList((arr)=> [...arr, totalImc])
+
+        setImc(totalImc)
+        setHeight('');
+        setWeight('');
     }
+        // se as duas vars estiverem vazias, então obriga a preencher os dados
+}
 
 // para estilizar, podemos abrir uma style em cada trecho (view é um componente, a outro view é outro componente, não é universal)
 {/* <View style(getBackgroundColorAsync)></View> */}
 
 
-    return (
-        <View style={styles.formContext}>
+return (
+    <View style={styles.formContext}>
 {/* estamos acessando a propriedade criada "formContext:{...}" e atribuindo tudo dentro dela para essa style nesse objeto View */}
-            <View style={styles.form}>
-                <Text style={styles.formLabel}>ALtura:</Text>
-                {/* <!---dados dentro dela mesmo---> */}
-                <TextInput 
-                    placeholder="Ex. 1.75"
-                    value={height}
-                    style={styles.formInput}
-                />
+        <View style={styles.form}>
+            <Text style={styles.formLabel}>ALtura:</Text>
+            {/* <!---dados dentro dela mesmo---> */}
+            <TextInput 
+                onChangeText={setHeight}
+                inputMode="numeric"
+                placeholder="Ex. 1.75"
+                value={height}
+                style={styles.formInput}
+            />
 
-                <Text style={styles.formLabel}>Peso:</Text>
-                <TextInput
-                    placeholder="Ex. 67.5"
-                    value={weight}
-                    style={styles.formInput}
-                />
+            <Text style={styles.formLabel}>Peso:</Text>
+            <TextInput
+                onChangeText={setWeight}
+                inputMode="numeric"
+                placeholder="Ex. 67.5"
+                value={weight}
+                style={styles.formInput}
+            />
 
                 <Pressable onPress = {()=>validatorImc()} style={styles.formButton}>
                     <Text style={styles.formButtonText}>Calcular</Text>

@@ -11,20 +11,21 @@ export function Form(){
 //usestate controla estado, define o estado inicial e define uma ferramenta que vai definir os seguintes estados
 // o estado inicial é essa string vazia ('')
 
-    function imcCalculator(){
-        let totalImc = (weight/(height*height)).toFixed(2)
-        // sabemos que se dividir um valor por outro, pode er que vire decimal, então colocamos o toFixed(2) para limitar
-        // o numero de casas depois da virgulas (ele vai ser um float, é baseado em aproximação e não algo fixo como o decimal
-        // logo, ele faz arredondamentos, o decimal segue a fidelidade exata, como usado em banco de dinheiro)
+//     function imcCalculator(){
+//         let totalImc = (weight/(height*height)).toFixed(2)
+//         // sabemos que se dividir um valor por outro, pode er que vire decimal, então colocamos o toFixed(2) para limitar
+//         // o numero de casas depois da virgulas (ele vai ser um float, é baseado em aproximação e não algo fixo como o decimal
+//         // logo, ele faz arredondamentos, o decimal segue a fidelidade exata, como usado em banco de dinheiro)
         
-        setImc(totalImc)
-// aq estamos exibindo a var, ela começou vazia pois useState('') está nulo.
-//chamamos o setImc para atualizar o estado da var, estado esse que recebe totalImc 
-    }
+//         setImc(totalImc)
+// // aq estamos exibindo a var, ela começou vazia pois useState('') está nulo.
+// //chamamos o setImc para atualizar o estado da var, estado esse que recebe totalImc 
+//     }
 
     function validatorImc(){
-        if(weight != '' && height != ''){
-            imcCalculator();
+        if(weight !== undefined && height !== undefined){
+            let totalImc = (weight/(height*height)).toFixed(2)
+            setImc(totalImc)
             setHeight('');
             setWeight('');
         }
@@ -42,6 +43,8 @@ export function Form(){
                 <Text style={styles.formLabel}>ALtura:</Text>
                 {/* <!---dados dentro dela mesmo---> */}
                 <TextInput 
+                    onChangeText={setHeight}
+                    inputMode="numeric"
                     placeholder="Ex. 1.75"
                     value={height}
                     style={styles.formInput}
@@ -49,6 +52,8 @@ export function Form(){
 
                 <Text style={styles.formLabel}>Peso:</Text>
                 <TextInput
+                    onChangeText={setWeight}
+                    inputMode="numeric"
                     placeholder="Ex. 67.5"
                     value={weight}
                     style={styles.formInput}
