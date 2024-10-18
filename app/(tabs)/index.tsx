@@ -1,112 +1,124 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
-export default function HomeScreen(){
+export default function HomeScreen() {
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
     const [imc, setImc] = useState('');
-// quando tem um campo de texto, ele pode estar preenchido ou vazio, o estado atualiza
+    // quando tem um campo de texto, ele pode estar preenchido ou vazio, o estado atualiza
 
-// a height é uma const, nunca muda, mas ela tem uma função especial que deixa mudar, setHeight.
-//usestate controla estado, define o estado inicial e define uma ferramenta que vai definir os seguintes estados
-// o estado inicial é essa string vazia ('')
+    // a height é uma const, nunca muda, mas ela tem uma função especial que deixa mudar, setHeight.
+    //usestate controla estado, define o estado inicial e define uma ferramenta que vai definir os seguintes estados
+    // o estado inicial é essa string vazia ('')
 
 
-    const [imcList, setImcList] = useState('');
+    const [imcList, setImcList] = useState([]);
     //    definindo um array de lista
 
-function validatorImc(){
-    console.log(imcList);
-    if(weight !== undefined && height !== undefined){
-        let totalImc = (weight/(height*height)).toFixed(2)
+    function validatorImc() {
+        console.log(imcList);
+        if (weight !== undefined && height !== undefined) {
+            let totalImc = (weight / (height * height)).toFixed(2)
 
-        setImcList((arr)=> [...arr, totalImc])
+            imcList.push(totalImc)
+            setImc(totalImc)
 
-        setImc(totalImc)
-        setHeight('');
-        setWeight('');
-    }
+            setHeight('');
+            setWeight('');
+        }
         // se as duas vars estiverem vazias, então obriga a preencher os dados
-}
+    }
 
-// para estilizar, podemos abrir uma style em cada trecho (view é um componente, a outro view é outro componente, não é universal)
-{/* <View style(getBackgroundColorAsync)></View> */}
+    // para estilizar, podemos abrir uma style em cada trecho (view é um componente, a outro view é outro componente, não é universal)
+    {/* <View style(getBackgroundColorAsync)></View> */ }
 
 
-return (
-    <View style={styles.formContext}>
-{/* estamos acessando a propriedade criada "formContext:{...}" e atribuindo tudo dentro dela para essa style nesse objeto View */}
-        <View style={styles.form}>
-            <Text style={styles.formLabel}>ALtura:</Text>
-            {/* <!---dados dentro dela mesmo---> */}
-            <TextInput 
-                onChangeText={setHeight}
-                inputMode="numeric"
-                placeholder="Ex. 1.75"
-                value={height}
-                style={styles.formInput}
-            />
+    return (
+        <View style={styles.formContext}>
+            {/* estamos acessando a propriedade criada "formContext:{...}" e atribuindo tudo dentro dela para essa style nesse objeto View */}
+            <View style={styles.form}>
+                <Text style={styles.formLabel}>ALtura:</Text>
+                {/* <!---dados dentro dela mesmo---> */}
+                <TextInput
+                    onChangeText={setHeight}
+                    inputMode="numeric"
+                    placeholder="Ex. 1.75"
+                    value={height}
+                    style={styles.formInput}
+                />
 
-            <Text style={styles.formLabel}>Peso:</Text>
-            <TextInput
-                onChangeText={setWeight}
-                inputMode="numeric"
-                placeholder="Ex. 67.5"
-                value={weight}
-                style={styles.formInput}
-            />
+                <Text style={styles.formLabel}>Peso:</Text>
+                <TextInput
+                    onChangeText={setWeight}
+                    inputMode="numeric"
+                    placeholder="Ex. 67.5"
+                    value={weight}
+                    style={styles.formInput}
+                />
 
-                <Pressable onPress = {()=>validatorImc()} style={styles.formButton}>
+                <Pressable onPress={() => validatorImc()} style={styles.formButton}>
                     <Text style={styles.formButtonText}>Calcular</Text>
                 </Pressable>
-                  {/* botão, tem um texto nele  */}
+                {/* botão, tem um texto nele  */}
 
                 <Text style={styles.formLabelImc}>{imc}</Text>
 
-                
+                <FlatList
+                    data={imcList.reverse()}
+                    renderItem={({ item }) => {
+                        return (
+                            <View>
+                                <Text> {item} </Text>
+                            </View>
+                        )
+                    }}
+
+                />
+
+
             </View>
         </View>
     )
 }
 const styles = StyleSheet.create({
-//o padding é a borda interna de um componente
-// margin é a borda entre um conteúdo e outro
+    //o padding é a borda interna de um componente
+    // margin é a borda entre um conteúdo e outro
 
-//RELEMBRANDO< TEM QUE COLOCAR EM TODOS OS OBJETOS USADOS NESSE COMPONENTE, CADA ABERTURA DE 
-//OBJETO RECEBE O SEU STYLE ESPECIFICO
+    //RELEMBRANDO< TEM QUE COLOCAR EM TODOS OS OBJETOS USADOS NESSE COMPONENTE, CADA ABERTURA DE 
+    //OBJETO RECEBE O SEU STYLE ESPECIFICO
     formContext: {
-// CADA ABERTURA DESSASCHAVES SÃO AS PROPRIEDADES DE ESTILIZAÇÃO
-//ISTO É, ao chamar a style={}, passamos a const Styles
+        // CADA ABERTURA DESSASCHAVES SÃO AS PROPRIEDADES DE ESTILIZAÇÃO
+        //ISTO É, ao chamar a style={}, passamos a const Styles
         width: "100%",
         height: "100%",
         bottom: 0,
-        backgroundColor:"#fff",
+        backgroundColor: "#fff",
         alignItems: "center",
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        marginTop: 30 
+        marginTop: 30
     }, //view mais geral
-    form:{
+    form: {
         width: "100%",
         height: "auto",
         marginTop: 30,
         padding: 10
     }, // 
-    formLabel:{
+    formLabel: {
         color: "#000000",
         fontSize: 18,
         paddingLeft: 20
     }, // para aquelas caixas de texto
-    formInput:{
+    formInput: {
         width: "90%",
         height: 40,
         borderRadius: 30,
         backgroundColor: "#f6f6f6",
-        margin:12,
+        margin: 12,
         paddingLeft: 10,
     }, //style para inputs
-    formButton:{
-        borderRadius:50,
+    formButton: {
+        borderRadius: 50,
         alignItems: "center",
         justifyContent: "center",
         width: "90%",
@@ -114,19 +126,19 @@ const styles = StyleSheet.create({
         paddingTop: 14,
         paddingBottom: 14,
         paddingLeft: 12,
-        margin: 30,        
+        margin: 30,
     }, //style para botões
-    formButtonText:{
+    formButtonText: {
         fontSize: 20,
-        color:"#fff"
+        color: "#fff"
     },
-    formLabelImc:{
+    formLabelImc: {
         flex: 1,
         marginTop: 15,
         paddingTop: 60,
         borderRadius: 50,
         alignItems: "center",
-        width:"100%"
+        width: "100%"
     }
 })
 // operador ternario:
