@@ -71,6 +71,7 @@ export function Form(){
         </View>
     )
 }
+
 const styles = StyleSheet.create({
 //o padding é a borda interna de um componente
 // margin é a borda entre um conteúdo e outro
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     formButtonText:{
         fontSize: 20,
         color:"#fff"
-    },
+    },              
     formLabelImc:{
         flex: 1,
         marginTop: 15,

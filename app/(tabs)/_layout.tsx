@@ -14,15 +14,24 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
       }}>
-      <Tabs.Screen
-        name="index"
-        options={{
+      <Tabs.Screen //a tela escolhida
+        name="index"   // nome da pagina renderizada
+        options={{    
           title: 'Home',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />  //se a gente ta na pgn home, fica icone focado, se não, oposyo
           ),
         }}
       />
+      <Tabs.Screen //a tela escolhida
+        name="Auth/login"   // nome da pagina renderizada
+        options={{    
+          title: 'Login',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />  //se a gente ta na pgn home, fica icone focado, se não, oposyo
+          ),
+        }}
+      />      
       <Tabs.Screen
         name="explore"
         options={{
