@@ -31,7 +31,16 @@ export default function TabLayout() {
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />  //se a gente ta na pgn home, fica icone focado, se não, oposyo
           ),
         }}
-      />      
+      />
+            <Tabs.Screen //a tela escolhida
+        name="Auth/menu"   // nome da pagina renderizada
+        options={{    
+          title: 'menu',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />  //se a gente ta na pgn home, fica icone focado, se não, oposyo
+          ),
+        }}
+      />        
       <Tabs.Screen
         name="explore"
         options={{
